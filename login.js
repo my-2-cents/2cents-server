@@ -52,12 +52,13 @@ class Login extends Component {
     width: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'rebeccapurple',
+    borderColor: 'burlywood',
     borderWidth: 1
   },
   button: {
     height: 40,
     width: 100,
+    borderColor: 'burlywood',
     color: '#F7A213',
   }
   })
