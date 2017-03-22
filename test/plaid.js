@@ -1,7 +1,7 @@
 const request = require('supertest');
 const expect = require('chai').expect;
 
-escribe('Plaid', () => {
+describe('Plaid', () => {
 
   let plaid;
   before((done) => {

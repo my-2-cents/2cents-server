@@ -2,11 +2,15 @@ const client = require('../../lib/client.js')
 let controller = {};
 
 controller.index = (req, res) => {
+  res.render('index.ejs')
+};
+
+controller.share_public_plaid = (req, res) => {
   res.json({
     PLAID_PUBLIC_KEY: process.env.PLAID_CLIENT_ID,
     PLAID_ENV: process.env.PLAID_ENV
   })
-};
+}
 
 controller.get_access_token = (req, res) => {
   PUBLIC_TOKEN = req.body.public_token;
