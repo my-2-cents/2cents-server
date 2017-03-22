@@ -13,35 +13,65 @@ function getParameterByName(name, url) {
 }
 
 function getPlaidInfo() {
-  console.log('getting plaid info')
+  console.log('getting plaid info');
   return fetch('/plaid/share_public_plaid')
-  .then((r) => r.json())
-  .then((data) => {
-    console.log('data:', data)
-    PLAID_ENV = data.PLAID_ENV,
-    PLAID_PUBLIC_KEY = data.PLAID_PUBLIC_KEY
-  })
-  .then(() => {
-    makeHandler();
-  })
+    .then(r => r.json())
+    .then(data => {
+      console.log('data:', data);
+      (plaid_env = data.PLAID_ENV), (plaid_public_key = data.PLAID_PUBLIC_KEY);
+    })
+    .then(() => {
+      makeHandler();
+    });
 }
 
 function makeHandler() {
-  console.log('making handler', typeof PLAID_ENV, typeof PLAID_PUBLIC_KEY)
   let handler = Plaid.create({
     apiVersion: 'v2',
-    clientName: 'my first plaid app',
-    env: `${PLAID_ENV}`,
+    clientName: '2cents demo app',
+    env: plaid_env,
     product: ['transactions'],
-    key: `${PLAID_PUBLIC_KEY}`,
+    key: plaid_public_key,
     onSuccess: function(public_token) {
-      console.log('success')
+      $.post('/plaid/get_access_token', { public_token: public_token }, function() {
+        console.log('posting to get_AT');
+      });
     }
   });
-  handler.open()
+  handler.open();
+  startLooking();
+  // let starter = setTimeout(() => {
+  //   console.log('starting')
+  // }, 1000)
+}
+
+function startLooking() {
+  let iframe = document.getElementById('plaid-link-iframe-1');
+  let innerDoc = iframe.contentDocument;
+  console.log(iframe)
+  setTimeout(() => {
+    let instits = innerDoc.getElementById('plaid-link-container')
+    console.log(instits)
+  }, 3000)
+  // let head = $('head')
+  // let linkInputs = $('<script>').attr('src', '../scripts/linkInputs.js')
+  // linkInputs.appendTo(head)
+  // console.log(head)
 }
 
 (function($) {
-  console.log('hello')
+  console.log('dom loaded');
   getPlaidInfo();
+
+  let accessToken = getParameterByName('access_token');
+  if (accessToken != null) {
+    console.log('accessToken:', accessToken);
+    $.post('/set_access_token', { access_token: accessToken }, function() {
+      $('#container').fadeOut('fast', function() {
+        $('#intro').hide();
+        $('#app, #steps').fadeIn('slow');
+      });
+    });
+  }
+
 })(jQuery);
