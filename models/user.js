@@ -31,7 +31,7 @@ User.login = (user) => {
       return data;
     } else {
       next();
-      return 'nope';
+      return {message: 'login information incorrect'};
     }
   })
 }

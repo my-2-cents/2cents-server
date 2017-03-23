@@ -30,7 +30,7 @@ controller.login = (req, res) => {
     .catch((err) => {
       res
         .status(400)
-        .json(err)
+        .json({message: "login failed"})
     })
 }
 
