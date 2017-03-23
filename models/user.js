@@ -5,7 +5,6 @@ const salt = 10;
 const User = {};
 
 User.signup = (user) => {
-  console.log('in model', user)
   if (user.signupPassword === user.signupConfirm) {
     return db.oneOrNone(
       `INSERT INTO users
@@ -17,20 +16,24 @@ User.signup = (user) => {
   }
 }
 
-User.authenticate = (user) => {
-  db.one('SELECT * FROM users WHERE username = ($1);', [user.loginUsername])
-    .then((data) => {
-      const match = bcrypt.compareSync(user.loginPassword, data.password);
-      if (match) {
-        res.loginResult = data
-        next();
-      } else {
-        res.loginResult = {failed: "failed"}
-        next();
-        return
-      }
-    })
-  .catch(error => console.log(error))
+User.login = (user) => {
+  console.log('in model user', user)
+  return db.oneOrNone(
+    `SELECT *
+    FROM users
+    WHERE username = $1;`,
+    [user.loginUsername]
+  )
+  .then((data) => {
+    console.log('in model data', data)
+    const match = bcrypt.compareSync(user.loginPassword, data.password);
+    if (match) {
+      return data;
+    } else {
+      next();
+      return 'nope';
+    }
+  })
 }
 
 module.exports = User;
