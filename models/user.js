@@ -4,19 +4,16 @@ const bcrypt = require('bcryptjs');
 const salt = 10;
 const User = {};
 
-User.create = (user) => {
+User.signup = (user) => {
+  console.log(user)
   if (user.signupPassword === user.signupConfirm) {
-    return db.oneOrNone('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *;',
-      [req.body.signupUsername, bcrypt.hashSync(req.body.signupPassword, salt), 0])
-      .then( () => {
-        res.signupResult = {signup: true}
-        next()
-      })
-    .catch(error => console.log(error))
-  } else {
-    res.signupResult = {signup: false}
-    next();
-    return;
+    return db.oneOrNone(
+      `INSERT INTO users
+      (username, password)
+      VALUES ($1, $2)
+      RETURNING *;`,
+      [user.signupUsername, bcrypt.hashSync(user.signupPassword, salt), 0]
+    );
   }
 }
 
@@ -36,7 +33,4 @@ User.authenticate = (user) => {
   .catch(error => console.log(error))
 }
 
-module.exports = {
-  createUser,
-  authenticate
-}
+module.exports = User;
