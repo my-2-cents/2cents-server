@@ -5,7 +5,7 @@ const salt = 10;
 const User = {};
 
 User.signup = (user) => {
-  console.log(user)
+  console.log('in model', user)
   if (user.signupPassword === user.signupConfirm) {
     return db.oneOrNone(
       `INSERT INTO users
