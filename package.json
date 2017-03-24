@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db": "bash ./lib/db.sh",
-    "schema": "bash ./lib/schema.sh"
+    "db": "bash ./scripts/db.sh",
+    "schema": "bash ./scripts/schema.sh"
   },
   "author": "Bill Mayo, Daniel Pease, Lee Wilson",
   "license": "MIT",
