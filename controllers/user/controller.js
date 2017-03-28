@@ -15,11 +15,10 @@ controller.login = (req, res) => {
 controller.signup = (req, res) => {
   User.signup(req.body)
     .then(data => {
-      console.log('what is passed', data)
-      User.login(data, req.body.signupPassword)
-        .then(data => {
-          res.status(200).json(data)
-        })
+      console.log('what is passed', data);
+      User.login(data, req.body.signupPassword).then(data => {
+        res.status(200).json(data);
+      });
     })
     .catch(err => {
       res.status(400).json(err);
