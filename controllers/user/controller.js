@@ -3,8 +3,7 @@ const User = require('../../models/user.js');
 let controller = {};
 
 controller.login = (req, res) => {
-  console.log('login', req.body)
-  User.login(req.body)
+  User.login(req.body, req.body.password)
     .then(data => {
       res.status(200).json(data);
     })
