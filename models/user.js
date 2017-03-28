@@ -26,15 +26,24 @@ User.login = (user, signupPassword) => {
     [user.username]
   )
   .then((data) => {
-    console.log('data inside .login', user.password, data.password)
-    const match = bcrypt.compareSync(signupPassword, data.password);
-    console.log('match', match)
-    if (match) {
-      const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
-      console.log('token', myToken)
-      return {token: myToken};
+    console.log('here', user.password, data.password)
+    if (signupPassword) {
+      const match = bcrypt.compareSync(signupPassword, data.password);
+      console.log('match', match)
+      if (match) {
+        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
+        return {token: myToken};
+      } else {
+        return {message: 'login information incorrect'};
+      }
     } else {
-      return {message: 'login information incorrect'};
+      const match = bcrypt.compareSync(user.password, data.password);
+      if (match) {
+        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
+        return {token: myToken};
+      } else {
+        return {message: 'login information incorrect'};
+      }
     }
   })
 }
