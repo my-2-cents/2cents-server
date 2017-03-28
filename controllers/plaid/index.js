@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const controller = require('./controller');
-const plaid = require('../services/plaid.js');
+const plaid = require('../../services/plaid.js');
 
-router.get('/connect', plaid.connect)
+router.post('/connect', controller.connect)
 
 module.exports = router;

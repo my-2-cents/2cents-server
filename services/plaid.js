@@ -1,10 +1,9 @@
 const fetch = require('node-fetch');
 const Plaid = {};
 
-Plaid.connect = reqObj => {
-  console.log(reqObj);
+Plaid.connect = (reqObj) => {
   return fetch('https://tartan.plaid.com/connect', {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'content-type': 'application/json'
     },
@@ -19,11 +18,3 @@ Plaid.connect = reqObj => {
 };
 
 module.exports = Plaid;
-
-// {
-// 	"client_id": "test_id",
-// 	"secret": "test_secret",
-// 	"username": "plaid_test",
-// 	"password": "plaid_good",
-// 	"type": "wells"
-// }
