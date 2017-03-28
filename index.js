@@ -12,14 +12,18 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use(expressJWT({secret: process.env.SECRET}).unless({path: ['/favicon.ico', '/user/login', '/user/signup']}));
+app.use(
+  expressJWT({ secret: process.env.SECRET }).unless({
+    path: ['/favicon.ico', '/user/login', '/user/signup']
+  })
+);
 
 app.use('/', require('./resources'));
 
-const server = app.listen(process.env.APP_PORT, function () {
-    console.log(`soft-shell tacos on ${process.env.APP_PORT}`);
+const server = app.listen(process.env.APP_PORT, function() {
+  console.log(`soft-shell tacos on ${process.env.APP_PORT}`);
 });
