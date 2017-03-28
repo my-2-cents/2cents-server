@@ -1,5 +1,6 @@
 const db = require('../lib/db');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const salt = 10;
 const User = {};
@@ -16,22 +17,33 @@ User.signup = (user) => {
   }
 }
 
-User.login = (user) => {
-  console.log('in model user', user)
+User.login = (user, signupPassword) => {
+  console.log('hi', user)
   return db.oneOrNone(
     `SELECT *
     FROM users
     WHERE username = $1;`,
-    [user.loginUsername]
+    [user.username]
   )
   .then((data) => {
-    console.log('in model data', data)
-    const match = bcrypt.compareSync(user.loginPassword, data.password);
-    if (match) {
-      return data;
+    console.log('here', user.password, data.password)
+    if (signupPassword) {
+      const match = bcrypt.compareSync(signupPassword, data.password);
+      console.log('match', match)
+      if (match) {
+        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
+        return {token: myToken};
+      } else {
+        return {message: 'login information incorrect'};
+      }
     } else {
-      next();
-      return {message: 'login information incorrect'};
+      const match = bcrypt.compareSync(user.password, data.password);
+      if (match) {
+        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
+        return {token: myToken};
+      } else {
+        return {message: 'login information incorrect'};
+      }
     }
   })
 }
