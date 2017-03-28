@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const nodemon = require('nodemon');
 const path = require('path');
+const jwt = require('jsonwebtoken');
+const expressJWT = require('express-jwt');
 require('dotenv').config();
 
 const app = express();
