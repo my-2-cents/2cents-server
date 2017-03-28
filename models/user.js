@@ -17,7 +17,7 @@ User.signup = (user) => {
   }
 }
 
-User.login = (user, signupPassword) => {
+User.login = (user, password) => {
   console.log('hi', user)
   return db.oneOrNone(
     `SELECT *
@@ -26,24 +26,13 @@ User.login = (user, signupPassword) => {
     [user.username]
   )
   .then((data) => {
-    console.log('here', user.password, data.password)
-    if (signupPassword) {
-      const match = bcrypt.compareSync(signupPassword, data.password);
-      console.log('match', match)
-      if (match) {
-        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
-        return {token: myToken};
-      } else {
-        return {message: 'login information incorrect'};
-      }
+    console.log('here', password, data.password)
+    const match = bcrypt.compareSync(password, data.password);
+    if (match) {
+      const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
+      return {token: myToken};
     } else {
-      const match = bcrypt.compareSync(user.password, data.password);
-      if (match) {
-        const myToken = jwt.sign({ username: data.username }, process.env.SECRET);
-        return {token: myToken};
-      } else {
-        return {message: 'login information incorrect'};
-      }
+      return {message: 'login information incorrect'};
     }
   })
 }
