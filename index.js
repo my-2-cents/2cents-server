@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 
 app.use(
   expressJWT({ secret: process.env.SECRET }).unless({
-    path: ['/favicon.ico', '/user/login', '/user/signup']
+    path: ['/favicon.ico', '/user/login', '/user/signup', '/test']
   })
 );
 
