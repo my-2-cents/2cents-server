@@ -16,7 +16,7 @@ User.signup = user => {
 };
 
 User.login = (user, password) => {
-  console.log(user, password)
+  console.log(user, password);
   return db
     .oneOrNone(
       `SELECT *
@@ -33,7 +33,7 @@ User.login = (user, password) => {
         );
         return { token: myToken };
       } else {
-        return { message: 'login information incorrect' };
+        return { failed: 'Incorect Password.' };
       }
     });
 };

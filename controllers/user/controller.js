@@ -3,9 +3,9 @@ const User = require('../../models/user.js');
 let controller = {};
 
 controller.login = (req, res) => {
-  console.log(req.body)
   User.login(req.body, req.body.loginPassword)
     .then(data => {
+      console.log('here:', data)
       res.status(200).json(data);
     })
     .catch(err => {
@@ -15,9 +15,8 @@ controller.login = (req, res) => {
 
 controller.signup = (req, res) => {
   if (req.body.signupPassword !== req.body.signupConfirm) {
-    return res.status(404).json({ failed: 'failed' });
+    return res.status(404).json({ failed: 'Passwords do not match' });
   } else {
-    console.log('it passed');
     User.signup(req.body, req.body.signupPassword)
       .then(data => {
         User.login(data, req.body.signupPassword).then(data => {
