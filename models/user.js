@@ -16,12 +16,13 @@ User.signup = user => {
 };
 
 User.login = (user, password) => {
+  console.log(user, password)
   return db
     .oneOrNone(
       `SELECT *
     FROM users
     WHERE username = $1;`,
-      [user.username]
+      [user.loginUsername]
     )
     .then(data => {
       const match = bcrypt.compareSync(password, data.password);
