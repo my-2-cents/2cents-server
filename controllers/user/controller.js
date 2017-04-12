@@ -5,7 +5,6 @@ let controller = {};
 controller.login = (req, res) => {
   User.login(req.body, req.body.password)
     .then(data => {
-      console.log('here:', data)
       res.status(200).json(data);
     })
     .catch(err => {
