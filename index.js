@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 const expressJWT = require('express-jwt');
 require('dotenv').config();
 
-const PORT = process.env.APP_PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
