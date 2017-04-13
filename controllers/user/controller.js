@@ -32,17 +32,15 @@ controller.signup = (req, res) => {
 };
 
 controller.updateSeries = (req, res) => {
-  User.updateSeries(req.body.series, req.params.id)
-    .then(data => {
-      return res.status(200).json(data)
-    })
-}
+  User.updateSeries(req.body.series, req.params.id).then(data => {
+    return res.status(200).json(data);
+  });
+};
 
 controller.updateMonthlyCap = (req, res) => {
-  User.updateMonthlyCap(req.body.monthlyCap, req.params.id)
-    .then(data => {
-      return res.status(200).json({message: 'update monthly cap', data: data})
-    })
-}
+  User.updateMonthlyCap(req.body.monthlyCap, req.params.id).then(data => {
+    return res.status(200).json(data);
+  });
+};
 
 module.exports = controller;
