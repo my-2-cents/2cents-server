@@ -13,7 +13,9 @@ controller.login = (req, res) => {
 };
 
 controller.signup = (req, res) => {
-  if (req.body.password !== req.body.passwordConfirm) {
+  if (!req.body.username || !req.body.password || !req.body.passwordConfirm) {
+    return res.status(404).json({ failed: 'All fields are required' });
+  } else if (req.body.password !== req.body.passwordConfirm) {
     return res.status(404).json({ failed: 'Passwords do not match' });
   } else {
     User.signup(req.body, req.body.password)
@@ -23,9 +25,21 @@ controller.signup = (req, res) => {
         });
       })
       .catch(err => {
+        console.log(err);
         return res.status(500).json(err);
       });
   }
 };
+
+controller.updateSeries = (req, res) => {
+  User.updateSeries(req.body.series, req.params.id)
+    .then(data => {
+      return res.status(200).json(data)
+    })
+}
+
+controller.updateMonthlyCap = (req, res) => {
+  return res.status(200).json({message: 'update monthly cap', data: data})
+}
 
 module.exports = controller;
