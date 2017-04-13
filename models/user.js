@@ -54,9 +54,14 @@ User.updateSeries = (series, id) => {
   );
 };
 
-User.updateMonthlyCap = (stuff) => {
-  console.log('inside model', stuff)
-  return {hello: 'hi'};
+User.updateMonthlyCap = (monthlyCap, id) => {
+  return db.oneOrNone(
+    `UPDATE users
+    SET monthlycap = $1
+    WHERE user_id = $2
+    RETURNING *;`,
+    [monthlyCap, id]
+  );
 }
 
 module.exports = User;
