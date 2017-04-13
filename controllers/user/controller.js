@@ -39,7 +39,7 @@ controller.updateSeries = (req, res) => {
 }
 
 controller.updateMonthlyCap = (req, res) => {
-  User.updateSeries(req.body.monthlyCap, req.params.id)
+  User.updateMonthlyCap(req.body.monthlyCap, req.params.id)
     .then(data => {
       return res.status(200).json({message: 'update monthly cap', data: data})
     })
