@@ -6,12 +6,13 @@ const salt = 10;
 const User = {};
 
 User.signup = user => {
+  let hashed = bcrypt.hashSync(user.password, salt);
   return db.oneOrNone(
     `INSERT INTO users
-      (username, password)
-      VALUES ($1, $2)
+      (username, password, monthlyCap, series)
+      VALUES ($1, $2, $3, $4)
       RETURNING *;`,
-    [user.username, bcrypt.hashSync(user.password, salt), 0]
+    [user.username, hashed, user.monthlyCap, user.series]
   );
 };
 
@@ -30,11 +31,32 @@ User.login = (user, password) => {
           { username: data.username },
           process.env.SECRET
         );
-        return { token: myToken };
+        return {
+          username: data.username,
+          monthlyCap: data.monthlycap,
+          series: data.series,
+          user_id: data.user_id,
+          token: myToken
+        };
       } else {
         return { failed: 'Incorect Password.' };
       }
     });
 };
+
+User.updateSeries = (series, id) => {
+  return db.oneOrNone(
+    `UPDATE users
+    SET series = $1
+    WHERE user_id = $2
+    RETURNING *;`,
+    [series, id]
+  );
+};
+
+User.updateMonthlyCap = (stuff) => {
+  console.log('inside model', stuff)
+  return {hello: 'hi'};
+}
 
 module.exports = User;

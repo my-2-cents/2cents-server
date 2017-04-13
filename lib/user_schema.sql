@@ -5,7 +5,9 @@ BEGIN;
 CREATE TABLE users(
   user_id SERIAL PRIMARY KEY,
   username VARCHAR NOT NULL UNIQUE,
-  password VARCHAR NOT NULL
+  password VARCHAR NOT NULL,
+  monthlycap INT NOT NULL,
+  series INT[3] NOT NULL
 );
 
 COMMIT;
