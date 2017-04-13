@@ -6,8 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db": "bash ./scripts/db.sh",
-    "schema": "bash ./scripts/schema.sh"
+    "schema": "bash ./scripts/schema.sh",
+    "start": "node index.js",
   },
+  "engines": {
+  "node": "7.4.0"
+},
   "author": "Bill Mayo, Daniel Pease, Lee Wilson",
   "license": "MIT",
   "dependencies": {
