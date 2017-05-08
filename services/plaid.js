@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const Plaid = {};
 
+// example call to Plaid's API
+// WIP
 Plaid.connect = reqObj => {
   return fetch('https://tartan.plaid.com/connect', {
     method: 'POST',

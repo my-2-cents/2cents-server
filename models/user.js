@@ -2,11 +2,15 @@ const db = require('../lib/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const salt = 10;
 const User = {};
+// salt is a parameter required by bcryptjs's .hashSync()
+const salt = 10;
 
+// signup function
 User.signup = user => {
+  // hash password
   let hashed = bcrypt.hashSync(user.password, salt);
+  // insert a user's info and hashed password, returning all
   return db.oneOrNone(
     `INSERT INTO users
       (username, password, monthlyCap, series)
@@ -16,7 +20,9 @@ User.signup = user => {
   );
 };
 
+// login function
 User.login = (user, password) => {
+  // grab the user's data
   return db
     .oneOrNone(
       `SELECT *
@@ -25,12 +31,15 @@ User.login = (user, password) => {
       [user.username]
     )
     .then(data => {
+      // compare the entered password to the hashed one in the db
       const match = bcrypt.compareSync(password, data.password);
       if (match) {
+        // if they match, create a jwt and...
         const myToken = jwt.sign(
           { username: data.username },
           process.env.SECRET
         );
+        // ...return that jwt (along with user info)
         return {
           username: data.username,
           monthlyCap: data.monthlycap,
@@ -39,11 +48,13 @@ User.login = (user, password) => {
           token: myToken
         };
       } else {
+        // error message if mismatch
         return { failed: 'Incorect Password.' };
       }
     });
 };
 
+// update the array containing the charities % breakdown (aka 'series')
 User.updateSeries = (series, id) => {
   return db.oneOrNone(
     `UPDATE users
@@ -54,6 +65,7 @@ User.updateSeries = (series, id) => {
   );
 };
 
+// update the montly cap of a user
 User.updateMonthlyCap = (monthlyCap, id) => {
   return db.oneOrNone(
     `UPDATE users
@@ -62,6 +74,6 @@ User.updateMonthlyCap = (monthlyCap, id) => {
     RETURNING *;`,
     [monthlyCap, id]
   );
-}
+};
 
 module.exports = User;
