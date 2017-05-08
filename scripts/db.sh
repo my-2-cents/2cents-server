@@ -1,4 +1,4 @@
-# create or resets 2cents db
+# create or reset 2cents db
 
 if psql -lqt | cut -d \| -f 1 | grep -w 2cents; then
   #if it does, drop it, create it, and run the schema
